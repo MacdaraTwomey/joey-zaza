@@ -1,0 +1,14 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            // This debugs programs compiled with clang.exe (and probably MSVC).
+            // You can only run this configuration when vscode isn't remoted into linux fileystem.
+            "name": "Debug from windows",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/zaza.exe",
+            //"console": true,
+        }
+    ],
+}
