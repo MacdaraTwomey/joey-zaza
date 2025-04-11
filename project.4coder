@@ -1,0 +1,66 @@
+
+version(2);
+project_name = "dedbg";
+
+patterns = {
+    "*.cpp",
+    "*.c",
+    "*.h",
+    "*.s",
+    "build*",
+    "*.4coder",
+    "*.txt",
+    "*.sh",
+};
+//blacklist_patterns = {
+//};
+
+// To symlink base directory on windows 
+// 1. run cmd.exe as admin
+// 2. mklink /d c:\dev\projects\PROJECT_NAME\base c:\dev\projects\base
+load_paths_base = {
+    { .path = ".", .relative = true, .recursive = false, },
+    { .path = "src", .relative = true, .recursive = false, },
+};
+load_paths = {
+    .win = load_paths_base,
+};
+
+commands = {
+    // .cursor_at_end = false is an option
+    
+    .build_clang_win = { .out = "*compilation*", .footer_panel = true, .save_dirty_files = true,         
+        .win = "bash build.sh win"
+    },
+    
+    // WSL build
+    .build_clang_linux = { .out = "*compilation*", .footer_panel = true, .save_dirty_files = true,         
+        .win = "bash build.sh linux"
+    },
+    
+    // Make WSL build
+    .build_make_clang_linux = { .out = "*compilation*", .footer_panel = true, .save_dirty_files = true,         
+        .win = "bash make.sh"
+    },
+    
+    .build_msvc = { .out = "*compilation*", .footer_panel = true, .save_dirty_files = true,
+        .win = "bash build.sh msvc"},
+    
+    .run = { .out = "*run*", .footer_panel = true, .save_dirty_files = false, 
+        .win = "bash -c 'build/dedbg build/test'"},
+    
+    .buildrun = { .out = "*compilation*", .footer_panel = true, .save_dirty_files = true,
+        .win = "bash build_and_run.sh"},
+    
+    .build_test = { .out = "*compilation*", .footer_panel = true, .save_dirty_files = true,
+        .win = "bash -c 'clang -g -O0 -nostdlib -static -o build/test src/test.c src/start.s'"},
+};
+fkey_command = {
+    // Alt-m seems to run the F1 command
+    .F1 = "build_make_clang_linux",
+    //.F1 = "build_clang_linux",
+    .F2 = "run",
+    .F3 = "buildrun",
+    .F4 = "build_clang_win",
+    .F5 = "build_test",
+};
