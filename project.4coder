@@ -30,7 +30,7 @@ commands = {
     // .cursor_at_end = false is an option
     
     .build_msvc = { .out = "*compilation*", .footer_panel = true, .save_dirty_files = true,
-        .win = "bash build.sh msvc"},
+        .win = "bash build.sh"},
     
     .run = { .out = "*run*", .footer_panel = true, .save_dirty_files = false, 
         .win = "bash -c 'build/joey-zaza'"},

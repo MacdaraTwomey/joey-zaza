@@ -7,7 +7,7 @@
             "name": "Debug from windows",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/zaza.exe",
+            "program": "${workspaceFolder}/build/zaza.exe",
             //"console": true,
         }
     ],
