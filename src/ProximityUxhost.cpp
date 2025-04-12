@@ -11,10 +11,10 @@
 #include <Shlobj.h>
 #include <winbase.h>
 
-//#define STBI_WINDOWS_UTF8
+#define STBI_WINDOWS_UTF8
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
-//#define STBIW_WINDOWS_UTF8
+#define STBIW_WINDOWS_UTF8
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
 
@@ -133,11 +133,11 @@ int main(int ArgCount, char **Args)
             float RandX = uniform_dist(e1);
             float RandY = uniform_dist(e1);
             
-            int MinX = JOEY_LOGO_WIDTH * 2;
-            int MaxX = Width - (JOEY_LOGO_WIDTH * 2);
+            int MinX = (int)(JOEY_LOGO_WIDTH * 1.2);
+            int MaxX = (int)(Width - (JOEY_LOGO_WIDTH * 1.2f));
 
-            int MinY = JOEY_LOGO_HEIGHT * 2;
-            int MaxY = Height - (JOEY_LOGO_HEIGHT * 2);
+            int MinY = (int)(JOEY_LOGO_HEIGHT * 1.2);
+            int MaxY = (int)(Height - (JOEY_LOGO_HEIGHT * 1.2f));
             int RangeX = MaxX - MinX;
             int RangeY = MaxY - MinY;
             int PosX = (int)(MinX + (RandX * RangeX));
@@ -145,14 +145,14 @@ int main(int ArgCount, char **Args)
             
             int Stride = Width * DesiredComponents;
 
-            printf("RandX: %f\n", RandX);
-            printf("RandY: %f\n", RandY);
-            printf("MinX: %d\n", MinX);
-            printf("MaxX: %d\n", MaxX);
-            printf("MinY: %d\n", MinY);
-            printf("MaxY: %d\n", MaxY);
-            printf("PosX: %d\n", PosX);
-            printf("PosY: %d\n", PosY);
+            //printf("RandX: %f\n", RandX);
+            //printf("RandY: %f\n", RandY);
+            //printf("MinX: %d\n", MinX);
+            //printf("MaxX: %d\n", MaxX);
+            //printf("MinY: %d\n", MinY);
+            //printf("MaxY: %d\n", MaxY);
+            //printf("PosX: %d\n", PosX);
+            //printf("PosY: %d\n", PosY);
             
             
 #if 1
