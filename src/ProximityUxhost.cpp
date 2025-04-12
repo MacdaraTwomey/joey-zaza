@@ -217,10 +217,6 @@ int main(int ArgCount, char **Args)
                     }
                     printf("};\n");
                 }
-                
-                //int WriteRet = stbi_write_png("c:\\Users\\mac\\.temp2\\joey-logo.png", JOEY_LOGO_WIDTH, JOEY_LOGO_HEIGHT, 4, JoeyLogo, JOEY_LOGO_WIDTH * 4);
-                //int WriteRet = stbi_write_png("c:\\Users\\mac\\.temp2\\joey-logo.png", Width, Height, 4, Data, Width * 4);
-                //printf("write ret %d\n", WriteRet);
             }
 
             int WriteRet = stbi_write_png(NewWallpaperPath8, Width, Height, DesiredComponents, Data, Stride);
