@@ -23,7 +23,8 @@
 #define Min(a, b) ((a) < (b) ? (a) : (b))
 #define Max(a, b) ((a) > (b) ? (a) : (b))
 
-int main(int ArgCount, char **Args) 
+//int main(int ArgCount, char **Args) 
+int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
     char TempDirPath[4096] = {};
     {
@@ -133,11 +134,11 @@ int main(int ArgCount, char **Args)
             float RandX = uniform_dist(e1);
             float RandY = uniform_dist(e1);
             
-            int MinX = (int)(JOEY_LOGO_WIDTH * 1.2);
-            int MaxX = (int)(Width - (JOEY_LOGO_WIDTH * 1.2f));
+            int MinX = (int)(JOEY_LOGO_WIDTH * 1.05f);
+            int MaxX = (int)(Width - (JOEY_LOGO_WIDTH * 1.05f));
 
-            int MinY = (int)(JOEY_LOGO_HEIGHT * 1.2);
-            int MaxY = (int)(Height - (JOEY_LOGO_HEIGHT * 1.2f));
+            int MinY = (int)(JOEY_LOGO_HEIGHT * 1.05f);
+            int MaxY = (int)(Height - (JOEY_LOGO_HEIGHT * 1.05f));
             int RangeX = MaxX - MinX;
             int RangeY = MaxY - MinY;
             int PosX = (int)(MinX + (RandX * RangeX));
