@@ -38,7 +38,7 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
         
         memcpy(TempDirPath, Home, TempDirPathLength);
         
-        char *NewDir = "\\.temp2";
+        char *NewDir = "\\.temp";
         size_t AppendLength = strlen(NewDir);
         
         memcpy(TempDirPath + TempDirPathLength, NewDir, AppendLength);
