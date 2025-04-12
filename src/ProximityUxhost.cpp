@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <assert.h>
+#include <random>
 
 #include <Shobjidl.h>
 #include <Shlobj.h>
@@ -17,8 +18,10 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
 
-#include "logo.h"
 #include "joey-logo.h"
+
+#define Min(a, b) ((a) < (b) ? (a) : (b))
+#define Max(a, b) ((a) > (b) ? (a) : (b))
 
 int main(int ArgCount, char **Args) 
 {
@@ -121,33 +124,66 @@ int main(int ArgCount, char **Args)
             int ChannelCount = 0;
             int DesiredComponents = 4;
             unsigned char *Data = stbi_load(ExistingWallpaperPath8, &Width, &Height, &ChannelCount, DesiredComponents);
-            printf("Got image data, x = %d, y = %d, n = %d\n", Width, Height, ChannelCount);
+            //printf("Got image data, x = %d, y = %d, n = %d\n", Width, Height, ChannelCount);
             
-            float logo_fraction = (float)LOGO_WIDTH / Width;
+            std::random_device rd;
+            std::default_random_engine e1(rd());
+            std::uniform_real_distribution<float> uniform_dist(0.0f, 1.0f);
+
+            float RandX = uniform_dist(e1);
+            float RandY = uniform_dist(e1);
             
-            srand((int)time(NULL));
-            float t = (float)rand() / RAND_MAX;
-            //printf("t %f\n", t);
-            
-            int MinX = LOGO_WIDTH;
-            int MaxX = Width - LOGO_WIDTH;
-            
-            t = 0.5f;
-            int PosX = (int)((1.0f - t) * MinX + (t * MaxX));
-            int PosY = Height / 2;
+            int MinX = JOEY_LOGO_WIDTH * 2;
+            int MaxX = Width - (JOEY_LOGO_WIDTH * 2);
+
+            int MinY = JOEY_LOGO_HEIGHT * 2;
+            int MaxY = Height - (JOEY_LOGO_HEIGHT * 2);
+            int RangeX = MaxX - MinX;
+            int RangeY = MaxY - MinY;
+            int PosX = (int)(MinX + (RandX * RangeX));
+            int PosY = (int)(MinY + (RandY * RangeY));
             
             int Stride = Width * DesiredComponents;
+
+            printf("RandX: %f\n", RandX);
+            printf("RandY: %f\n", RandY);
+            printf("MinX: %d\n", MinX);
+            printf("MaxX: %d\n", MaxX);
+            printf("MinY: %d\n", MinY);
+            printf("MaxY: %d\n", MaxY);
+            printf("PosX: %d\n", PosX);
+            printf("PosY: %d\n", PosY);
+            
             
 #if 1
-            unsigned int *LogoPtr = (unsigned int *)JoeyLogo;
+            unsigned int *SourcePtr = (unsigned int *)JoeyLogo;
             for (int y = 0; y < JOEY_LOGO_WIDTH; ++y) {
-                unsigned int *Ptr = (unsigned int *)(Data + (PosX * DesiredComponents) + ((PosY + y) * Stride));
+                unsigned int *DestPtr = (unsigned int *)(Data + (PosX * DesiredComponents) + ((PosY + y) * Stride));
                 for (int x = 0; x < JOEY_LOGO_WIDTH; ++x) {
                     //                         AARRGGBB
                     // unsigned int Colour = 0xFF00FF00; 
-                    unsigned int Colour = *LogoPtr++;
-                    //unsigned ColourABGR = Colour 
-                    *Ptr++ = Colour;
+                    unsigned int SourcePixel = *SourcePtr++;
+                    unsigned int DestPixel = *DestPtr;
+
+                    float Alpha =   ((SourcePixel & 0xFF000000) >> 24) / 255.0f;
+
+                    float SourceR = ((SourcePixel & 0x00FF0000) >> 16) / 255.0f;
+                    float SourceG = ((SourcePixel & 0x0000FF00) >> 8) / 255.0f;
+                    float SourceB = ((SourcePixel & 0x000000FF) >> 0) / 255.0f;
+
+                    float DestR = ((DestPixel & 0x00FF0000) >> 16) / 255.0f;
+                    float DestG = ((DestPixel & 0x0000FF00) >> 8) / 255.0f;
+                    float DestB = ((DestPixel & 0x000000FF) >> 0) / 255.0f;
+
+                    if (SourcePixel & 0xFF000000) {
+                        int sdf = 2;
+                    }
+                    unsigned int Red = (unsigned int)roundf(((1.0f - Alpha) * DestR + (Alpha * SourceR)) * 255.0f);
+                    unsigned int Green = (unsigned int)roundf(((1.0f - Alpha) * DestG + (Alpha * SourceG)) * 255.0f);
+                    unsigned int Blue = (unsigned int)roundf(((1.0f - Alpha) * DestB + (Alpha * SourceB)) * 255.0f);
+                    
+                    unsigned int Colour = 0xFF000000 | (Red << 16) | (Green << 8) | (Blue << 0);
+                    *DestPtr++ = Colour;
                 }
             }
 #endif
@@ -182,41 +218,27 @@ int main(int ArgCount, char **Args)
                     printf("};\n");
                 }
                 
-                int WriteRet = stbi_write_png("c:\\Users\\mac\\.temp2\\joey-logo.png", JOEY_LOGO_WIDTH, JOEY_LOGO_HEIGHT, 4, JoeyLogo, JOEY_LOGO_WIDTH * 4);
+                //int WriteRet = stbi_write_png("c:\\Users\\mac\\.temp2\\joey-logo.png", JOEY_LOGO_WIDTH, JOEY_LOGO_HEIGHT, 4, JoeyLogo, JOEY_LOGO_WIDTH * 4);
                 //int WriteRet = stbi_write_png("c:\\Users\\mac\\.temp2\\joey-logo.png", Width, Height, 4, Data, Width * 4);
-                printf("write ret %d\n", WriteRet);
+                //printf("write ret %d\n", WriteRet);
             }
 
-            int WriteRet = stbi_write_png("c:\\Users\\mac\\.temp2\\joey-logo.png", Width, Height, DesiredComponents, Data, Stride);
-            printf("write ret %d\n", WriteRet);
-
-
-            //assert(sizeof(joey2) == sizeof(LogoBytes));
-            //int different = memcmp(joey2, LogoBytes, sizeof(joey2));
-            //printf("different = %d\n", different);
-            //int WriteRet = stbi_write_png("c:\\Users\\mac\\.temp2\\joey2.png", JOEY2_WIDTH, JOEY2_HEIGHT, 4, joey2, JOEY2_WIDTH * 4);
-            //printf("write ret %d\n", WriteRet);
-            //WriteRet = stbi_write_png("c:\\Users\\mac\\.temp2\\LogoBytes.png", LOGO_WIDTH, LOGO_HEIGHT, LOGO_COMPONENTS, LogoBytes, LOGO_WIDTH * LOGO_COMPONENTS);
-            
-            //int WriteRet = stbi_write_png(NewWallpaperPath8, Width, Height, DesiredComponents, Data, Stride);
+            int WriteRet = stbi_write_png(NewWallpaperPath8, Width, Height, DesiredComponents, Data, Stride);
             //printf("write ret %d\n", WriteRet);
             
+            wchar_t NewWallpaperPath16[4096] = {};
+            int CharacterCount = MultiByteToWideChar(CP_UTF8, 0, 
+                                                    (char *)NewWallpaperPath8, (int)NewWallpaperPathLength, 
+                                                    NewWallpaperPath16, (int)sizeof(NewWallpaperPath16));
+            NewWallpaperPath16[CharacterCount] = 0;
+            //wprintf(L"NewWallpaperPath16 %ws\n", NewWallpaperPath16);
             
-            if (0) {
-                wchar_t NewWallpaperPath16[4096] = {};
-                int CharacterCount = MultiByteToWideChar(CP_UTF8, 0, 
-                                                        (char *)NewWallpaperPath8, (int)NewWallpaperPathLength, 
-                                                        NewWallpaperPath16, (int)sizeof(NewWallpaperPath16));
-                NewWallpaperPath16[CharacterCount] = 0;
-                wprintf(L"NewWallpaperPath16 %ws\n", NewWallpaperPath16);
-                
-                Result = DesktopWallpaperObj->SetWallpaper(NULL, NewWallpaperPath16);
-                if (Result == S_OK) {
-                    printf("SetWallpaper success\n");
-                }
-                else {
-                    printf("SetWallpaper failed\n");
-                }
+            Result = DesktopWallpaperObj->SetWallpaper(NULL, NewWallpaperPath16);
+            if (Result == S_OK) {
+                //printf("SetWallpaper success\n");
+            }
+            else {
+                //printf("SetWallpaper failed\n");
             }
         }
     }
