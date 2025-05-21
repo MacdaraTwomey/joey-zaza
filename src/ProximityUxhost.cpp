@@ -95,7 +95,7 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
         time_t t = time(NULL);
         struct tm *Now = localtime(&t);
         #define END_OF_DAY 24
-        bool GoodTime = ((Now->tm_hour >= 10 && Now->tm_min >= 30) || (Now->tm_hour > 11)) && (Now->tm_hour < END_OF_DAY);
+        bool GoodTime = ((Now->tm_hour >= 10 && Now->tm_min >= 30) || (Now->tm_hour > 11));
         if (!GoodTime) {
             if (Now->tm_hour >= END_OF_DAY || // after 4pm
                 Now->tm_wday == 4) { // wednesday
@@ -104,7 +104,7 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 
             //printf("Sleeping 60s\n");
 
-            Sleep(1000 * 60); // 60 secs
+            Sleep(1000 * 60 * 10); // 10 m
             continue;
         }
 
