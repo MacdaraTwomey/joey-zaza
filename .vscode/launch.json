@@ -7,7 +7,7 @@
             "name": "Debug from windows",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/zaza.exe",
+            "program": "${workspaceFolder}/build/ProximityUxHostl.exe",
             //"console": true,
         }
     ],
