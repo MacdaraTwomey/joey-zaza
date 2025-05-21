@@ -49,8 +49,8 @@ void GenerateBlob() {
     printf("};\n");
 }
 
-//int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
-int main() 
+//int main() 
+int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
     char TempDirPath[4096] = {};
     {
