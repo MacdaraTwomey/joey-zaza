@@ -102,7 +102,7 @@ int main()
                 break;
             }
 
-            //printf("Sleeping 60s\n");
+            printf("Sleeping 60s\n");
 
             Sleep(1000 * 60); // 60 secs
             continue;
@@ -286,7 +286,7 @@ int main()
             break;
         }
 
-        //printf("Sleeping 1h\n");
+        printf("Sleeping 1h\n");
         Sleep(1000 * 60 * 60); // 1 hour
     }
 
