@@ -94,7 +94,7 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
     while (true) {
         time_t t = time(NULL);
         struct tm *Now = localtime(&t);
-        #define END_OF_DAY 24
+        #define END_OF_DAY 16
         bool GoodTime = ((Now->tm_hour >= 10 && Now->tm_min >= 30) || (Now->tm_hour > 11));
         if (!GoodTime) {
             if (Now->tm_hour >= END_OF_DAY || // after 4pm
