@@ -97,8 +97,11 @@ int main()
         bool GoodTime = ((Now->tm_hour >= 10 && Now->tm_min >= 30) || (Now->tm_hour > 11)) && (Now->tm_hour < 16);
         if (!GoodTime) {
             if (Now->tm_hour >= 16) {
+                printf("After 4pm\n");
                 break;
             }
+
+            printf("Sleeping 60s\n");
 
             Sleep(1000 * 60); // 60 secs
             continue;
@@ -282,6 +285,7 @@ int main()
             break;
         }
 
+        printf("Sleeping 1h\n");
         Sleep(1000 * 60 * 60); // 1 hour
     }
 
