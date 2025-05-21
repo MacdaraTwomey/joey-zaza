@@ -96,10 +96,10 @@ int main()
         struct tm *Now = localtime(&t);
         bool GoodTime = ((Now->tm_hour >= 10 && Now->tm_min >= 30) || (Now->tm_hour > 11)) && (Now->tm_hour < 16);
         if (!GoodTime) {
-            if (Now->tm_hour >= 16) {
-                printf("After 4pm\n");
-                break;
-            }
+            //if (Now->tm_hour >= 16) {
+            //    printf("After 4pm\n");
+            //    break;
+            //}
 
             printf("Sleeping 60s\n");
 
