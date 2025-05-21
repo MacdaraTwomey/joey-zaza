@@ -94,12 +94,13 @@ int main()
     while (true) {
         time_t t = time(NULL);
         struct tm *Now = localtime(&t);
-        bool GoodTime = ((Now->tm_hour >= 10 && Now->tm_min >= 30) || (Now->tm_hour > 11)) && (Now->tm_hour < 16);
+        #define END_OF_DAY 24
+        bool GoodTime = ((Now->tm_hour >= 10 && Now->tm_min >= 30) || (Now->tm_hour > 11)) && (Now->tm_hour < END_OF_DAY);
         if (!GoodTime) {
-            //if (Now->tm_hour >= 16) {
-            //    printf("After 4pm\n");
-            //    break;
-            //}
+            if (Now->tm_hour >= END_OF_DAY || // after 4pm
+                Now->tm_wday == 4) { // wednesday
+                break;
+            }
 
             printf("Sleeping 60s\n");
 
